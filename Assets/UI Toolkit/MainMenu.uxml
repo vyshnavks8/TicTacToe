@@ -1,0 +1,12 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI%20Toolkit/MainMenu.uss?fileID=7433441132597879392&amp;guid=49b277a3f57ee7c4f9e2c62324bbf333&amp;type=3#MainMenu" />
+    <ui:VisualElement style="flex-direction: column; flex-grow: 1; align-items: center; justify-content: space-around; background-color: rgb(222, 224, 138);">
+        <ui:VisualElement name="Heading" style="margin-top: 100px;">
+            <ui:Label text="TIC TAC TOE" display-tooltip-when-elided="true" name="head" style="-unity-font-style: bold; -unity-text-align: middle-center; font-size: 180px; color: rgb(67, 68, 164);" />
+        </ui:VisualElement>
+        <ui:VisualElement name="Buttons" style="flex-direction: column; align-items: center; justify-content: space-around; flex-grow: 0;">
+            <ui:Button text="PLAY" display-tooltip-when-elided="true" name="play" class="button" style="font-size: 90px;" />
+            <ui:Button text="QUIT" display-tooltip-when-elided="true" name="quit" class="button" style="font-size: 90px; -unity-font-style: bold; padding-left: 10%; padding-right: 10%; white-space: nowrap; margin-top: 100px; padding-top: 10px; padding-bottom: 10px; border-left-width: 0; border-right-width: 0; border-top-width: 0; border-bottom-width: 0; border-top-left-radius: 20px; border-bottom-left-radius: 20px; border-top-right-radius: 20px; border-bottom-right-radius: 20px;" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

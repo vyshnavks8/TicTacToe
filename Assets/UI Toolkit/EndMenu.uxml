@@ -1,0 +1,16 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI%20Toolkit/MainMenu.uss?fileID=7433441132597879392&amp;guid=49b277a3f57ee7c4f9e2c62324bbf333&amp;type=3#MainMenu" />
+    <ui:VisualElement style="flex-grow: 1; background-color: rgb(219, 255, 196);">
+        <ui:Label text="DEVELOPED BY VYSHNAV KS" display-tooltip-when-elided="true" style="-unity-font-style: bold; font-size: 20px; color: rgba(88, 0, 255, 255); -unity-text-align: upper-right; margin-top: 0;" />
+        <ui:Label text="WINNER" display-tooltip-when-elided="true" name="label" style="-unity-text-align: upper-center; font-size: 100px; -unity-font-style: bold; color: rgb(202, 64, 0); margin-top: 20px;" />
+        <ui:GroupBox name="playerBox" class="player" style="background-color: rgba(0, 0, 0, 0); align-items: center; justify-content: space-between; -unity-text-align: upper-left; overflow: visible; display: flex;">
+            <ui:VisualElement name="symbol" style="background-image: url(&apos;project://database/Assets/UI%20Toolkit/Icons/O.png?fileID=21300000&amp;guid=4dcb08a0d6b458843841be3aec6ff20e&amp;type=3#O&apos;); width: 128px; height: 128px; margin-top: 10px; margin-bottom: 10px;" />
+            <ui:VisualElement name="person_icon" style="background-image: url(&apos;project://database/Assets/UI%20Toolkit/Icons/man.png?fileID=21300000&amp;guid=914aa1f454a516f42bb5621c9b085e48&amp;type=3#man&apos;); width: 256px; height: 256px;" />
+            <ui:Label text="PLAYER 1" display-tooltip-when-elided="true" name="player_label" style="-unity-font-style: bold; font-size: 32px; -unity-text-align: upper-center; margin-top: 10px; color: rgb(0, 0, 0);" />
+        </ui:GroupBox>
+        <ui:GroupBox style="flex-direction: column; align-items: center; justify-content: space-around; margin-bottom: 60px;">
+            <ui:Button text="PLAY AGAIN" display-tooltip-when-elided="true" name="play_again" class="button" />
+            <ui:Button text="MAIN MENU" display-tooltip-when-elided="true" name="main_menu" class="button" />
+        </ui:GroupBox>
+    </ui:VisualElement>
+</ui:UXML>
