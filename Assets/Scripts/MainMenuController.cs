@@ -3,14 +3,24 @@ using UnityEngine.UIElements;
 using UnityEngine.SceneManagement;
 public class MainMenuController : MonoBehaviour
 {
-    private void OnEnable()
+    private Button _play, _quit;
+    private void IntialiseUI()
     {
         UIDocument uiDocument = GetComponent<UIDocument>();
         VisualElement root = uiDocument.rootVisualElement;
-        Button play = root.Q<Button>("play");
-        Button quit = root.Q<Button>("quit");
-        play.clickable.clicked += PlayGame;
-        quit.clickable.clicked += QuitGame;
+        _play = root.Q<Button>("play");
+        _quit = root.Q<Button>("quit");
+    }
+    private void OnEnable()
+    {
+        IntialiseUI();
+        _play.clickable.clicked += PlayGame;
+        _quit.clickable.clicked += QuitGame;
+    }
+    private void OnDisable()
+    {
+        _play.clickable.clicked -= PlayGame;
+        _quit.clickable.clicked -= QuitGame;
     }
     private void PlayGame()
     {

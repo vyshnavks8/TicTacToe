@@ -6,23 +6,34 @@ public class EndMenuController : MonoBehaviour
 {
     public Sprite player1, player2;
     public Sprite sprite_O, sprite_X;
-    public static int winner;
-    Label label, playerLabel;
-    VisualElement playerBox, symbol, person;
-    private void OnEnable()
+
+    private Label _label, _playerLabel;
+    private VisualElement _playerBox, _symbol, _person;
+    private Button _play, _main;
+    private void IntialiseUI()
     {
         UIDocument uiDocument = GetComponent<UIDocument>();
         VisualElement root = uiDocument.rootVisualElement;
-        Button play = root.Q<Button>("play_again");
-        Button main = root.Q<Button>("main_menu");
-        symbol = root.Q<VisualElement>("symbol");
-        person = root.Q<VisualElement>("person_icon");
-        label = root.Q<Label>("label");
-        playerLabel = root.Q<Label>("player_label");
-        playerBox = root.Q<VisualElement>("playerBox");
-        play.clickable.clicked += PlayAgain;
-        main.clickable.clicked += MainMenu;
-        DrawUI();
+        _play = root.Q<Button>("play_again");
+        _main = root.Q<Button>("main_menu");
+        _symbol = root.Q<VisualElement>("symbol");
+        _person = root.Q<VisualElement>("person_icon");
+        _label = root.Q<Label>("label");
+        _playerLabel = root.Q<Label>("player_label");
+        _playerBox = root.Q<VisualElement>("playerBox");
+    }
+    private void OnEnable()
+    {
+        IntialiseUI();
+        DrawWinnerUI();
+        _play.clickable.clicked += PlayAgain;
+        _main.clickable.clicked += MainMenu;
+
+    }
+    private void OnDisable()
+    {
+        _play.clickable.clicked -= PlayAgain;
+        _main.clickable.clicked -= MainMenu;
     }
     private void PlayAgain()
     {
@@ -32,26 +43,27 @@ public class EndMenuController : MonoBehaviour
     {
         SceneManager.LoadScene(0);
     }
-    private void DrawUI()
+    private void DrawWinnerUI()
     {
-        if (winner == 0)
+        if (PlayerManager.IsPlayer1())
         {
-            label.text = "WINNER";
-            symbol.style.backgroundImage = new StyleBackground(sprite_O);
-            person.style.backgroundImage = new StyleBackground(player1);
-            playerLabel.text = "PLAYER 1";
+            SetWinnerDetail("WINNER", "PLAYER 1", player1, sprite_O);
         }
-        else if (winner == 1)
+        else if (PlayerManager.IsPlayer2())
         {
-            label.text = "WINNER";
-            symbol.style.backgroundImage = new StyleBackground(sprite_X);
-            person.style.backgroundImage = new StyleBackground(player2);
-            playerLabel.text = "PLAYER 2";
+            SetWinnerDetail("WINNER", "PLAYER 2", player2, sprite_X);
         }
         else
         {
-            label.text = "DRAW";
-            playerBox.visible = false;
+            _label.text = "DRAW";
+            _playerBox.visible = false;
         }
+    }
+    private void SetWinnerDetail(string label, string playerLabel, Sprite person, Sprite symbol)
+    {
+        _label.text = label;
+        _playerLabel.text = playerLabel;
+        _person.style.backgroundImage = new StyleBackground(person);
+        _symbol.style.backgroundImage = new StyleBackground(symbol);
     }
 }

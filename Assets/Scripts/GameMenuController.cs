@@ -3,84 +3,93 @@ using UnityEngine.UIElements;
 
 public class GameMenuController : MonoBehaviour
 {
-    public delegate int ClickAction(int index);
+    public delegate void ClickAction(int index);
     public static event ClickAction PlayerClicked;
-
     public Sprite sprite_O, sprite_X;
-    Button b0,b1, b2, b3, b4, b5, b6, b7, b8;
-    Button pause,resume;
-    GroupBox gameBox;
-    VisualElement resumeMenu;
-    VisualElement player1, player2;
-    private void OnEnable()
+
+    private Button[] _buttons=new Button[9];
+    private Button _pause, _resume;
+    private GroupBox _gameBox;
+    private VisualElement _resumeMenu;
+    private VisualElement _player1, _player2;
+
+    private void IntialiseUI()
     {
         UIDocument uiDocument = GetComponent<UIDocument>();
         VisualElement root = uiDocument.rootVisualElement;
-        player1 = root.Q<VisualElement>("player1");
-        player2 = root.Q<VisualElement>("player2");
-        resumeMenu = root.Q<VisualElement>("ResumeMenu");
-        pause = root.Q<Button>("pause");
-        resume = root.Q<Button>("resume");
-        gameBox = root.Q<GroupBox>("GAMEBOX");
-        pause.clickable.clicked += PauseGame;
-        resume.clickable.clicked += ResumeGame;
-        resumeMenu.visible = false;
-        player1.style.backgroundColor = Color.yellow;
+        _player1 = root.Q<VisualElement>("player1");
+        _player2 = root.Q<VisualElement>("player2");
+        _pause = root.Q<Button>("pause");
+        _resume = root.Q<Button>("resume");
+        _resumeMenu = root.Q<VisualElement>("ResumeMenu");
+        _gameBox = root.Q<GroupBox>("GAMEBOX");
+
+        _buttons[0] = root.Q<Button>("0");
+        _buttons[1] = root.Q<Button>("1");
+        _buttons[2] = root.Q<Button>("2");
+        _buttons[3] = root.Q<Button>("3");
+        _buttons[4] = root.Q<Button>("4");
+        _buttons[5] = root.Q<Button>("5");
+        _buttons[6] = root.Q<Button>("6");
+        _buttons[7] = root.Q<Button>("7");
+        _buttons[8] = root.Q<Button>("8");
+
+        _resumeMenu.visible = false;
+        _player1.style.backgroundColor = Color.yellow;
+    }
+    private void OnEnable()
+    {
+        IntialiseUI();
+        _pause.clickable.clicked += pauseGame;
+        _resume.clickable.clicked += ResumeGame;
+        foreach(Button b in _buttons)
+        {
+            b.clickable.clickedWithEventInfo += (e) => { ButtonClick(e.target); };
+        }
         
-
-        b0 = root.Q<Button>("0");
-        b1 = root.Q<Button>("1");
-        b2 = root.Q<Button>("2");
-        b3 = root.Q<Button>("3");
-        b4 = root.Q<Button>("4");
-        b5 = root.Q<Button>("5");
-        b6 = root.Q<Button>("6");
-        b7 = root.Q<Button>("7");
-        b8 = root.Q<Button>("8");
-
-        b0.clickable.clickedWithEventInfo += (e) => { ButtonClick(e.target); };
-        b1.clickable.clickedWithEventInfo += (e) => { ButtonClick(e.target); };
-        b2.clickable.clickedWithEventInfo += (e) => { ButtonClick(e.target); };
-        b3.clickable.clickedWithEventInfo += (e) => { ButtonClick(e.target); };
-        b4.clickable.clickedWithEventInfo += (e) => { ButtonClick(e.target); };
-        b5.clickable.clickedWithEventInfo += (e) => { ButtonClick(e.target); };
-        b6.clickable.clickedWithEventInfo += (e) => { ButtonClick(e.target); };
-        b7.clickable.clickedWithEventInfo += (e) => { ButtonClick(e.target); };
-        b8.clickable.clickedWithEventInfo += (e) => { ButtonClick(e.target); };
+    }
+    private void OnDisable()
+    {
+        _pause.clickable.clicked -= pauseGame;
+        _resume.clickable.clicked -= ResumeGame;
+        foreach (Button b in _buttons)
+        {
+            b.clickable.clickedWithEventInfo -= (e) => { ButtonClick(e.target); };
+        }
     }
 
-    private void ButtonClick(IEventHandler button)
+    private void ButtonClick(IEventHandler handler)
     {
-        Button b = button as Button;
-        VisualElement symbol = b.Q<VisualElement>("symbol");
-        int index =int.Parse(b.name);
-        int player= PlayerClicked(index);
-        if (player == 1)
+        Button button = handler as Button;
+        VisualElement symbol = button.Q<VisualElement>("symbol");
+        int index = int.Parse(button.name);
+        if (PlayerManager.IsPlayer1())
         {
-            symbol.style.backgroundImage = new StyleBackground(sprite_O);
-            player1.style.backgroundColor = Color.clear;
-            player2.style.backgroundColor = Color.yellow;
-            
+            ChangePlayerUI(_player1, _player2, symbol, sprite_O);
         }
-        else
+        else if (PlayerManager.IsPlayer2())
         {
-            symbol.style.backgroundImage = new StyleBackground(sprite_X);
-            player2.style.backgroundColor = Color.clear;
-            player1.style.backgroundColor = Color.yellow;
+            ChangePlayerUI(_player2, _player1, symbol, sprite_X);
 
         }
-        b.SetEnabled(false);
+        PlayerClicked(index);
+        button.SetEnabled(false);
     }
-    private void PauseGame()
+    private void ChangePlayerUI(VisualElement activePlayer, VisualElement nextPlayer, VisualElement symbol, Sprite sprite)
     {
-        gameBox.SetEnabled(false);
-        resumeMenu.visible = true;
+        symbol.style.backgroundImage = new StyleBackground(sprite);
+        activePlayer.style.backgroundColor = Color.clear;
+        nextPlayer.style.backgroundColor = Color.yellow;
+    }
+    private void pauseGame()
+    {
+        _gameBox.SetEnabled(false);
+        _resumeMenu.visible = true;
     }
 
     private void ResumeGame()
     {
-        gameBox.SetEnabled(true);
-        resumeMenu.visible = false;
-
+        _gameBox.SetEnabled(true);
+        _resumeMenu.visible = false;
     }
 }
